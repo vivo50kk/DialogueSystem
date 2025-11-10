@@ -6,7 +6,7 @@ using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class Dialogue : MonoBehaviour
 {
@@ -22,6 +22,11 @@ public class Dialogue : MonoBehaviour
     private int contentIndex = 0;
 
     public UnityEngine.TextAsset textFile;
+
+    public Image Left_Character;
+    public Image Right_Character;
+
+    public CharacterSO Left_CharacterSO;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +34,10 @@ public class Dialogue : MonoBehaviour
         NextButton.onClick.AddListener(OnClickNextButton);
 
         readText();
+
+        Left_Character.sprite = Left_CharacterSO.CharacterIcon;
+
+
 
         //contentList = new List<string>();
         //contentList.Add("ÄãºÃ");
