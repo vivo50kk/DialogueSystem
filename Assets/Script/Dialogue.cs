@@ -18,15 +18,18 @@ public class Dialogue : MonoBehaviour
 
     private UnityEngine.TextCore.Text.TextAsset DialogueTextAsset;
 
-    private string[] contentList;
-    private int contentIndex = 0;
+    private string[] rows;
+    private string[] cell;
+    private int contentIndex = 1;
 
     public UnityEngine.TextAsset textFile;
 
     public Image Left_Character;
     public Image Right_Character;
 
-    public CharacterSO Left_CharacterSO;
+    public TextMeshProUGUI NameText;
+
+    public CharacterDBSO CharacterList;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,13 +38,10 @@ public class Dialogue : MonoBehaviour
 
         readText();
 
-        Left_Character.sprite = Left_CharacterSO.CharacterIcon;
+        
 
 
 
-        //contentList = new List<string>();
-        //contentList.Add("ÄãºÃ");
-        //contentList.Add("WTF");
     }
 
     // Update is called once per frame
@@ -62,18 +62,37 @@ public class Dialogue : MonoBehaviour
 
     private void OnClickNextButton()
     {
-        contentIndex++;
-        if (contentIndex >= contentList.Length)
+        int CharacterId = -1;
+        
+        if (contentIndex >= rows.Length)
         {
             Hide(); return;
         }
-        DialogueText.text = contentList[contentIndex];
-        
+
+        cell = rows[contentIndex].Split(',');
+
+        if (cell[0] == "0")
+        {
+            CharacterId = int.Parse(cell[2]);
+            NameText.text = cell[3];
+            if (cell[4] == "×ó")
+            {
+                Left_Character.sprite = CharacterList.CharacterList[CharacterId].CharacterIcon;
+            }
+            else if (cell[4] == "ÓÒ")
+            {
+                Right_Character.sprite = CharacterList.CharacterList[CharacterId].CharacterIcon;
+            }
+            DialogueText.text = cell[5];
+        }
+
+        contentIndex = int.Parse(cell[6]);
+        contentIndex++;
     }
 
     public void readText()
     {
-        contentList = textFile.text.Split("\n");
+        rows = textFile.text.Split("\n");
         
     }
 }
